@@ -3,35 +3,50 @@
 int usage(Opt_Data *od, int odnm)
 {
   int i;
+  char *ptmp;
   
   for(i = 0; i < odnm; i++)
     {
-      printf("-%-2c--%-10s%30s\n", od[i].sopt, od[i].lopt, od[i].msg);
+      printf("-%-2c--%-10s%s\n", od[i].sopt, od[i].lopt, od[i].msg);
     }
 
   return 0;
 }
 
+int mkshortopt(Opt_Data *od, int odnm)
+{
+  int i;
+  char sopts[128], tmp[128];
+
+  for(i = 0; i < odnm; i++)
+    {
+      if(od[i].aflg == TRUE)
+	{
+	  sprintf(tmp, "%c:", od[i].sopt);
+	}
+
+      else
+	{
+	  sprintf(tmp, "%c", od[i].sopt);
+	}
+
+      strcat(sopts, tmp);
+    }
+
+
+  printf("%s\n", sopts);
+  return 0;
+}
+
 int main()
 {
-  Opt_Data odata[3];
-
-  odata[0].sopt = 'a';
-  odata[0].lopt = "add";
-  odata[0].msg = "";
-  odata[0].aflg = TRUE;
-
-  odata[1].sopt = 'e';
-  odata[1].lopt = "edit";
-  odata[1].msg = "";
-  odata[1].aflg = FALSE;
-
-  odata[2].sopt = 'd';
-  odata[2].lopt = "delete";
-  odata[2].msg = "";
-  odata[2].aflg = FALSE;
+  Opt_Data odata[] = {
+    {.sopt = 'a', .lopt = "add", .msg = "", .aflg = TRUE},
+    {.sopt = 'e', .lopt = "edit", .msg = "", .aflg = FALSE},
+    {.sopt = 'd', .lopt = "delete", .msg = "", .aflg = FALSE}};
 
   usage(odata, (sizeof(odata) / sizeof(odata[0])));
+  mkshortopt(odata, (sizeof(odata) / sizeof(odata[0])));
 
   return 0;
 }

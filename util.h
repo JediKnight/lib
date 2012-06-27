@@ -2,6 +2,7 @@
 #define _UTIL_H_
 
 #include <stdio.h>
+#include <string.h>
 
 #ifndef _BOOLEAN_
 #define _BOOLEAN_

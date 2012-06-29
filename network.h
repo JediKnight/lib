@@ -13,6 +13,8 @@
 #include <netdb.h>
 #include <sys/socket.h>
 
+typedef int sock;
+
 #define BUF_LEN 1024
 
 int getsock(char *hostnm, int portn);

@@ -10,7 +10,7 @@
 #undef CRLF
 #define CRLF "\r\n"
 
-typedef struct { char serv[64]; int port; char from[64]; char to[64]; char subject[64]; char message[1024]; } Mail_Data;
+typedef struct { char serv[64]; int port; char from[64]; char to[64]; char subject[64]; char message[1024]; } Mail;
 
 int sendm(Mail_Data mdata);
 

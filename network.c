@@ -1,9 +1,8 @@
 #include "network.h"
 
-int getsock(char *hostnm, int portn)
+sock getsock(char *hostnm, int portn)
 {
   struct hostent *host;
-  /* struct in_addr inaddr; */
   struct sockaddr_in sockaddr;
 
   int soc;
@@ -14,12 +13,6 @@ int getsock(char *hostnm, int portn)
       fprintf(stderr, "gethostbyname: %s\n", hostnm);
       exit(EXIT_FAILURE);
     }
-
-  /* 
-   * u_long inaddr.s_addr
-   * char * FAR * FAR * h_addr_list
-   */
-  /* inaddr.s_addr = **((u_long **)host->h_addr_list); */
 
   /*
    * ゼロクリア

@@ -1,24 +1,23 @@
 #include "progress.h"
 
-boolean proginit()
+void proginit()
 {
-  return FALSE;
+  printf("\x1b[>5h");
 }
 
-boolean progend()
+void progend()
 {
-  return TRUE;
+  printf("\x1b[>5l\n");
 }
 
-void progbar(char **ptr, char c, int len)
+void progbar(char *ptr, char c, int len)
 {
   int i;
 
-  for(i = 0; i < len; ptr[i++] = &c);
-  printf("%c : %d\n", c, len);
+  for(i = 0; i < len; ptr[i++] = c);
 }
 
-boolean showprog(int perc)
+void showprog(int perc)
 {
   struct winsize ws;
   char *cmp;
@@ -31,63 +30,38 @@ boolean showprog(int perc)
 
   cmplen = calcleng(perc, cols);
 
-  cmp = malloc(sizeof(char) * cols);
-  memset(cmp, 0, sizeof(cmp));
+  cmp = (char *)malloc(sizeof(char) * cols);
+  spc = (char *)malloc(sizeof(char) * cols);
 
-  spc = malloc(sizeof(char) * cols);
-  memset(spc, 0, sizeof(spc));
+  memset(cmp, 0, malloc_usable_size(cmp));
+  memset(spc, 0, malloc_usable_size(spc));
 
-  progbar(&cmp, '#', cmplen);
-  progbar(&spc, '_', (cols - cmplen));
+  progbar(&cmp[0], '#', cmplen);
+  progbar(&spc[0], '_', (cols - cmplen));
 
-  /* printf("%d : %d\n", calcleng(perc, cols), (cols - calcleng(perc, cols))); */
-
-  printf("[%s%s] [%-3d%%]\n", cmp, spc, perc);
-  /* printf("%s", CURSOR_LEFT); */
+  printf("[%s%s] [%3d%%]\n", cmp, spc, perc);
+  printf("\x1b[1A");
 
   free(cmp);
   free(spc);
-  
-  return TRUE;
-}
-
-void func(char **a)
-{
-  char tmp[10];
-  int i;
-
-  for(i = 0; i < 10; tmp[i++] = 'c');
-  *a = tmp;
 }
 
 int main(int argc, char **argv)
 {
   int perc;
-  /* int i; */
+  int i;
 
-  char *a;
+  if(argc < 2) goto end;
 
-  /* if(argc < 2) goto end; */
+  proginit();
 
-  /* proginit(); */
-
-  /* for(i = 0; i <= 416; i++) */
+  /* for(i = 0; i <= atoi(argv[1]); i++) */
   /*   { */
-  /*     perc = calcperc(i, 416); */
+  /*     perc = calcperc(i, atoi(argv[1])); */
   /*     showprog(perc); */
   /*   } */
 
   /* progend(); */
-
-  printf("befor: %d\n", (int)sizeof(a));
-
-  a = malloc(sizeof(char) * 10);
-  memset(a, 0, sizeof(a));
-
-  printf("after: %d\n", (int)sizeof(a));
-
-  func(&a);
-  printf("%s\n", a);
 
  end:
 
